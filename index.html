@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shoufin Andriyanto | Portofolio</title>
+<meta name="description" content="Portofolio Shoufin Andriyanto, Mahasiswa Teknik Komputer Politeknik Negeri Jember.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --bg:#050505; --bg2:#0d0d0d; --card:#111; --line:#232323;
+  --text:#f5f5f5; --muted:#9a9a9a; --white:#fff; --black:#000;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.7}
+::selection{background:#fff;color:#000}
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:#000}
+::-webkit-scrollbar-thumb{background:#444;border-radius:8px}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+
+/* Loader */
+#loader{position:fixed;inset:0;background:#000;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transition:opacity .7s,visibility .7s}
+#loader.hide{opacity:0;visibility:hidden;pointer-events:none}
+.loader-logo{font-family:'Space Grotesk';font-size:2.4rem;font-weight:700;letter-spacing:4px}
+.loader-bar{width:180px;height:2px;background:#222;overflow:hidden;border-radius:2px}
+.loader-bar span{display:block;height:100%;width:0;background:#fff;animation:load 1.4s var(--ease) forwards}
+@keyframes load{to{width:100%}}
+
+/* Progress & cursor */
+#progress{position:fixed;top:0;left:0;height:3px;width:0;background:#fff;z-index:1100}
+#glow{position:fixed;width:380px;height:380px;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(255,255,255,.07),transparent 65%);transform:translate(-50%,-50%);transition:opacity .3s}
+#bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* Navbar */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:18px 6%;display:flex;justify-content:space-between;align-items:center;
+  transition:all .4s var(--ease)}
+nav.scrolled{background:rgba(5,5,5,.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:12px 6%;border-bottom:1px solid var(--line)}
+.logo{font-family:'Space Grotesk';font-weight:700;font-size:1.4rem;letter-spacing:1px}
+.logo span{display:inline-block;width:8px;height:8px;background:#fff;border-radius:50%;margin-left:3px}
+.nav-links{display:flex;gap:6px}
+.nav-links a{position:relative;padding:8px 14px;font-size:.88rem;color:var(--muted);border-radius:30px;transition:.3s}
+.nav-links a:hover{color:#fff}
+.nav-links a.active{background:#fff;color:#000;font-weight:600}
+.burger{display:none;font-size:1.5rem;cursor:pointer;z-index:1200;background:none;border:none;color:#fff}
+
+/* Layout */
+main{position:relative;z-index:1}
+section{padding:110px 8%;position:relative}
+.sec-head{text-align:center;margin-bottom:60px}
+.sec-head small{display:inline-block;font-size:.78rem;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.sec-head h2{font-family:'Space Grotesk';font-size:clamp(2rem,4.5vw,3rem);font-weight:700}
+.sec-head .bar{width:60px;height:3px;background:#fff;margin:16px auto 0;border-radius:3px;position:relative;overflow:hidden}
+.sec-head .bar::after{content:"";position:absolute;inset:0;background:#000;animation:slide 2s infinite}
+@keyframes slide{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(50px);transition:all 1s var(--ease)}
+.reveal.left{transform:translateX(-60px)}
+.reveal.right{transform:translateX(60px)}
+.reveal.zoom{transform:scale(.85)}
+.reveal.show{opacity:1;transform:none}
+
+/* Hero */
+#beranda{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:120px}
+.photo-wrap{position:relative;width:230px;height:230px;margin-bottom:34px}
+.photo-wrap::before,.photo-wrap::after{content:"";position:absolute;inset:-14px;border-radius:50%;border:1px solid rgba(255,255,255,.35);animation:pulse 3s infinite}
+.photo-wrap::after{animation-delay:1.5s}
+@keyframes pulse{0%{transform:scale(.9);opacity:.9}100%{transform:scale(1.35);opacity:0}}
+.photo-ring{position:absolute;inset:-8px;border-radius:50%;background:conic-gradient(#fff,#000,#fff,#444,#fff);animation:spin 6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.photo{position:absolute;inset:0;border-radius:50%;overflow:hidden;background:#111;border:6px solid #050505;z-index:2;
+  display:flex;align-items:center;justify-content:center;animation:float 5s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-12px)}}
+.photo img{width:100%;height:100%;object-fit:cover;filter:grayscale(100%);transition:.6s}
+.photo:hover img{filter:grayscale(0)}
+.photo .ph{position:absolute;color:#555;font-size:4rem}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border:1px solid var(--line);border-radius:30px;font-size:.8rem;color:var(--muted);margin-bottom:18px;background:rgba(255,255,255,.03)}
+.badge i{width:8px;height:8px;border-radius:50%;background:#fff;animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.2}}
+#beranda h1{font-family:'Space Grotesk';font-size:clamp(2.4rem,7vw,5rem);line-height:1.1;font-weight:700;margin-bottom:12px}
+#beranda h1 em{font-style:normal;background:linear-gradient(90deg,#fff,#777,#fff);background-size:200%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 4s linear infinite}
+@keyframes shine{to{background-position:200% 0}}
+.typing{font-size:clamp(1rem,2.4vw,1.4rem);color:var(--muted);min-height:36px;margin-bottom:34px}
+.typing::after{content:"|";margin-left:3px;animation:blink .8s infinite;color:#fff}
+.btns{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.btn{position:relative;overflow:hidden;padding:13px 32px;border-radius:50px;font-weight:600;font-size:.92rem;border:1px solid #fff;transition:.4s var(--ease);display:inline-flex;align-items:center;gap:10px;cursor:pointer}
+.btn.fill{background:#fff;color:#000}
+.btn.line{background:transparent;color:#fff}
+.btn:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(255,255,255,.18)}
+.btn.line:hover{background:#fff;color:#000}
+.btn.fill:hover{background:#000;color:#fff}
+.scroll-cue{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);width:26px;height:44px;border:2px solid #555;border-radius:20px}
+.scroll-cue::after{content:"";position:absolute;top:8px;left:50%;width:4px;height:8px;margin-left:-2px;border-radius:4px;background:#fff;animation:wheel 1.6s infinite}
+@keyframes wheel{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(16px)}}
+
+/* Tentang */
+.about-box{max-width:860px;margin:auto;text-align:center;padding:50px;border:1px solid var(--line);border-radius:26px;background:linear-gradient(145deg,#0f0f0f,#080808);position:relative;overflow:hidden}
+.about-box::before{content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent,rgba(255,255,255,.08),transparent 30%);animation:spin 8s linear infinite}
+.about-box>*{position:relative}
+.about-box i.q{font-size:2rem;color:#444;margin-bottom:18px}
+.about-box p{font-size:1.1rem;color:#ccc}
+.about-box b{color:#fff}
+.tags{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+.tags span{padding:8px 20px;border:1px solid #333;border-radius:30px;font-size:.85rem;transition:.3s}
+.tags span:hover{background:#fff;color:#000;transform:translateY(-3px)}
+
+/* Timeline */
+.timeline{max-width:820px;margin:auto;position:relative;padding-left:34px}
+.timeline::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:linear-gradient(#fff,#222)}
+.t-item{position:relative;margin-bottom:28px;padding:22px 26px;background:var(--card);border:1px solid var(--line);border-radius:18px;transition:.4s var(--ease)}
+.t-item::before{content:"";position:absolute;left:-34px;top:28px;width:18px;height:18px;border-radius:50%;background:#000;border:3px solid #fff;box-shadow:0 0 0 6px rgba(255,255,255,.08)}
+.t-item:hover{transform:translateX(10px);border-color:#fff;background:#151515}
+.t-item .year{display:inline-block;font-size:.78rem;letter-spacing:2px;padding:3px 14px;border-radius:20px;background:#fff;color:#000;font-weight:600;margin-bottom:8px}
+.t-item h3{font-size:1.1rem;font-weight:600}
+.t-item p{color:var(--muted);font-size:.9rem}
+
+/* Cards (organisasi, keahlian) */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:26px;max-width:1000px;margin:auto}
+.card{padding:36px 28px;text-align:center;background:var(--card);border:1px solid var(--line);border-radius:22px;transition:transform .2s,border-color .4s,box-shadow .4s;transform-style:preserve-3d;position:relative;overflow:hidden}
+.card::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.12),transparent 55%);opacity:0;transition:.4s}
+.card:hover{border-color:#fff;box-shadow:0 20px 50px rgba(255,255,255,.07)}
+.card:hover::after{opacity:1}
+.card .ic{width:70px;height:70px;margin:0 auto 18px;border-radius:50%;background:#fff;color:#000;display:flex;align-items:center;justify-content:center;font-size:1.8rem;transition:.5s var(--ease)}
+.card:hover .ic{transform:rotateY(360deg) scale(1.1)}
+.card h3{font-size:1.1rem;margin-bottom:4px}
+.card p{color:var(--muted);font-size:.88rem}
+.skill-bar{height:5px;background:#222;border-radius:5px;margin-top:18px;overflow:hidden}
+.skill-bar span{display:block;height:100%;width:0;background:#fff;border-radius:5px;transition:width 1.6s var(--ease)}
+
+/* Sertifikat */
+.cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:26px;max-width:1100px;margin:auto}
+.cert{position:relative;aspect-ratio:4/3;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:#0e0e0e;cursor:pointer;transition:.5s var(--ease)}
+.cert:hover{transform:translateY(-10px) scale(1.02);border-color:#fff;box-shadow:0 25px 60px rgba(255,255,255,.1)}
+.cert img{width:100%;height:100%;object-fit:cover;filter:grayscale(100%);transition:.6s}
+.cert:hover img{filter:grayscale(0);transform:scale(1.08)}
+.cert .fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#555;z-index:0}
+.cert .fallback i{font-size:2.6rem}
+.cert img{position:relative;z-index:1}
+.cert .cap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:40px 18px 16px;background:linear-gradient(transparent,rgba(0,0,0,.9));font-weight:500;transform:translateY(40%);opacity:0;transition:.5s var(--ease)}
+.cert:hover .cap{transform:none;opacity:1}
+/* Dokumentasi */
+.gallery{display:grid;grid-template-columns:repeat(2,1fr);grid-auto-rows:340px;gap:20px;max-width:900px;margin:auto}
+.shot{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#0e0e0e;cursor:pointer;transition:.5s var(--ease)}
+.shot img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;filter:grayscale(100%);transition:.7s var(--ease)}
+.shot .fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#555;font-size:.8rem}
+.shot .fallback i{font-size:2rem}
+.shot::after{content:"\f002";font-family:"Font Awesome 6 Free";font-weight:900;position:absolute;z-index:3;top:50%;left:50%;transform:translate(-50%,-50%) scale(.4);width:54px;height:54px;border-radius:50%;background:#fff;color:#000;display:flex;align-items:center;justify-content:center;opacity:0;transition:.5s var(--ease)}
+.shot:hover{border-color:#fff;transform:scale(1.025);z-index:5;box-shadow:0 20px 50px rgba(255,255,255,.1)}
+.shot:hover img{filter:grayscale(0) brightness(.6);transform:scale(1.1)}
+.shot:hover::after{opacity:1;transform:translate(-50%,-50%) scale(1)}
+@media(max-width:860px){.gallery{grid-template-columns:1fr;grid-auto-rows:240px}}
+
+#lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:.4s;padding:30px}
+#lightbox.open{opacity:1;visibility:visible}
+#lightbox img{max-width:100%;max-height:90vh;border-radius:12px;transform:scale(.8);transition:.5s var(--ease)}
+#lightbox.open img{transform:scale(1)}
+#lightbox .x{position:absolute;top:24px;right:30px;font-size:2rem;cursor:pointer;color:#fff}
+
+/* Kontak */
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px;max-width:1000px;margin:auto}
+.c-item{display:flex;align-items:center;gap:16px;padding:24px;background:var(--card);border:1px solid var(--line);border-radius:18px;transition:.4s var(--ease)}
+.c-item:hover{background:#fff;color:#000;transform:translateY(-8px)}
+.c-item:hover p{color:#333}
+.c-item .ic{flex:none;width:52px;height:52px;border-radius:50%;border:1px solid #444;display:flex;align-items:center;justify-content:center;font-size:1.3rem;transition:.4s}
+.c-item:hover .ic{background:#000;color:#fff;border-color:#000}
+.c-item h4{font-size:.95rem}
+.c-item p{font-size:.8rem;color:var(--muted);word-break:break-all}
+
+footer{position:relative;z-index:1;text-align:center;padding:36px 8%;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+#top{position:fixed;right:24px;bottom:24px;width:46px;height:46px;border-radius:50%;background:#fff;color:#000;border:none;cursor:pointer;z-index:900;font-size:1rem;opacity:0;transform:translateY(20px);transition:.4s;pointer-events:none}
+#top.show{opacity:1;transform:none;pointer-events:auto}
+#top:hover{transform:translateY(-5px)}
+
+@media(max-width:860px){
+  .burger{display:block}
+  .nav-links{position:fixed;top:0;right:-100%;width:72%;height:100vh;background:rgba(0,0,0,.97);flex-direction:column;justify-content:center;align-items:center;gap:14px;transition:.5s var(--ease);border-left:1px solid var(--line)}
+  .nav-links.open{right:0}
+  .nav-links a{font-size:1.05rem}
+  section{padding:90px 6%}
+  .about-box{padding:32px 22px}
+  #glow{display:none}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+/* Foto profil persegi + foto sertifikat/dokumentasi berwarna */
+.photo-wrap{width:240px;height:300px}
+.photo-wrap::before,.photo-wrap::after{border-radius:32px}
+.photo-ring{inset:-6px;border-radius:28px}
+.photo{border-radius:24px}
+.photo img,.cert img,.shot img{filter:none}
+/* Foto tidak terlalu dekat (utuh) + nama tampil langsung di bawah foto */
+.photo img{object-position:center top}
+.cert,.shot{display:flex;flex-direction:column}
+.cert img,.shot img{flex:1 1 0;min-height:0;height:auto;object-fit:contain;background:#0e0e0e}
+.cert:hover img,.shot:hover img{transform:none}
+.cert .cap,.shot .cap{position:relative;left:auto;right:auto;bottom:auto;z-index:2;transform:none;opacity:1;padding:12px 16px;background:#0b0b0b;text-align:center;font-size:.9rem;font-weight:500}
+</style>
+</head>
+<body>
+
+<div id="loader"><div class="loader-logo">SHOUFIN.</div><div class="loader-bar"><span></span></div></div>
+<div id="progress"></div>
+<div id="glow"></div>
+<canvas id="bg-canvas"></canvas>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#beranda" class="logo">Shoufin<span></span></a>
+  <button class="burger" id="burger" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#beranda" class="active">Beranda</a></li>
+    <li><a href="#tentang">Tentang</a></li>
+    <li><a href="#pendidikan">Pendidikan</a></li>
+    <li><a href="#pengalaman">Pengalaman</a></li>
+    <li><a href="#organisasi">Organisasi</a></li>
+    <li><a href="#keahlian">Keahlian</a></li>
+    <li><a href="#sertifikat">Sertifikat</a></li>
+    <li><a href="#dokumentasi">Dokumentasi</a></li>
+    <li><a href="#kontak">Kontak</a></li>
+  </ul>
+</nav>
+
+<main>
+<!-- BERANDA -->
+<section id="beranda">
+  <div class="photo-wrap reveal zoom">
+    <div class="photo-ring"></div>
+    <div class="photo">
+      <i class="fa-solid fa-user ph"></i>
+      <!-- Ganti foto.jpg dengan fotomu -->
+      <img src="foto.jpg.jpeg" alt="Foto Shoufin Andriyanto" onerror="this.style.display='none'">
+    </div>
+  </div>
+  <div class="badge reveal"><i></i> Mahasiswa Teknik Komputer</div>
+  <h1 class="reveal">Hai, saya <em>Shoufin<br>Andriyanto</em></h1>
+  <p class="typing" id="typing"></p>
+  <div class="btns reveal">
+    <a href="#tentang" class="btn fill">Tentang Saya <i class="fa-solid fa-arrow-down"></i></a>
+    <a href="#kontak" class="btn line">Hubungi Saya <i class="fa-solid fa-paper-plane"></i></a>
+  </div>
+  <div class="scroll-cue"></div>
+</section>
+
+<!-- TENTANG -->
+<section id="tentang">
+  <div class="sec-head reveal"><small>Siapa saya?</small><h2>Tentang Saya</h2><div class="bar"></div></div>
+  <div class="about-box reveal zoom">
+    <i class="fa-solid fa-quote-left q"></i>
+    <p>Saya <b>Shoufin Andriyanto</b> Mahasiswa Politeknik Negeri Jember semester 1 Teknik Komputer. Saya suka belajar pemrograman dan bermain game.</p>
+    <div class="tags"><span><i class="fa-solid fa-code"></i> Pemrograman</span><span><i class="fa-solid fa-gamepad"></i> Game</span><span><i class="fa-solid fa-microchip"></i> Teknik Komputer</span></div>
+  </div>
+</section>
+
+<!-- PENDIDIKAN -->
+<section id="pendidikan">
+  <div class="sec-head reveal"><small>Riwayat</small><h2>Latar Belakang Pendidikan</h2><div class="bar"></div></div>
+  <div class="timeline">
+    <div class="t-item reveal left"><span class="year">2014 - 2020</span><h3>SDN 1 Mayang</h3><p>Sekolah Dasar</p></div>
+    <div class="t-item reveal left"><span class="year">2020 - 2023</span><h3>SMPN 1 Mayang</h3><p>Sekolah Menengah Pertama</p></div>
+    <div class="t-item reveal left"><span class="year">2023 - 2026</span><h3>SMKN 5 Jember</h3><p>Sekolah Menengah Kejuruan</p></div>
+    <div class="t-item reveal left"><span class="year">2026 - Sekarang</span><h3>Politeknik Negeri Jember</h3><p>Teknik Komputer</p></div>
+  </div>
+</section>
+
+<!-- PENGALAMAN -->
+<section id="pengalaman">
+  <div class="sec-head reveal"><small>Perjalanan</small><h2>Pengalaman</h2><div class="bar"></div></div>
+  <div class="timeline">
+    <div class="t-item reveal right"><span class="year">2025 - 2026</span><h3>Praktik Kerja Lapangan</h3><p>PT DDNET Sinergi Telekomunikasi</p></div>
+    <div class="t-item reveal right"><span class="year">2020 - 2023</span><h3>Jual Beli Akun Game</h3><p>Pengalaman bekerja di bidang jual beli akun game</p></div>
+    <div class="t-item reveal right"><span class="year">4 Bulan</span><h3>Petani</h3><p>Bekerja sebagai petani selama 4 bulan</p></div>
+  </div>
+</section>
+
+<!-- ORGANISASI -->
+<section id="organisasi">
+  <div class="sec-head reveal"><small>Aktivitas</small><h2>Organisasi</h2><div class="bar"></div></div>
+  <div class="grid" style="max-width:420px">
+    <div class="card reveal zoom"><div class="ic"><i class="fa-solid fa-people-group"></i></div><h3>Pramuka</h3><p>Mengikuti Organisasi Pramuka</p></div>
+  </div>
+</section>
+
+<!-- KEAHLIAN -->
+<section id="keahlian">
+  <div class="sec-head reveal"><small>Kemampuan</small><h2>Keahlian</h2><div class="bar"></div></div>
+  <div class="grid" style="max-width:760px">
+    <div class="card reveal zoom"><div class="ic"><i class="fa-solid fa-person-running"></i></div><h3>Olahraga</h3><p>Lari</p><div class="skill-bar"><span data-w="85%"></span></div></div>
+    <div class="card reveal zoom"><div class="ic"><i class="fa-solid fa-futbol"></i></div><h3>Olahraga</h3><p>Sepak Bola</p><div class="skill-bar"><span data-w="80%"></span></div></div>
+  </div>
+</section>
+
+<!-- SERTIFIKAT -->
+<section id="sertifikat">
+  <div class="sec-head reveal"><small>Penghargaan</small><h2>Sertifikat</h2><div class="bar"></div></div>
+  <div class="cert-grid" id="certGrid"></div>
+</section>
+
+<!-- DOKUMENTASI -->
+<section id="dokumentasi">
+  <div class="sec-head reveal"><small>Kegiatan</small><h2>Foto Dokumentasi</h2><div class="bar"></div></div>
+  <div class="gallery" id="gallery"></div>
+</section>
+
+<!-- KONTAK -->
+<section id="kontak">
+  <div class="sec-head reveal"><small>Terhubung</small><h2>Kontak</h2><div class="bar"></div></div>
+  <div class="contact-grid">
+    <a class="c-item reveal" href="https://wa.me/6282335716154" target="_blank" rel="noopener"><div class="ic"><i class="fa-brands fa-whatsapp"></i></div><div><h4>WhatsApp</h4><p>082335716154</p></div></a>
+    <a class="c-item reveal" href="https://instagram.com/sofinn.n" target="_blank" rel="noopener"><div class="ic"><i class="fa-brands fa-instagram"></i></div><div><h4>Instagram</h4><p>sofinn.n</p></div></a>
+    <a class="c-item reveal" href="mailto:shoufinandriyanto64@gmail.com"><div class="ic"><i class="fa-solid fa-envelope"></i></div><div><h4>Email</h4><p>shoufinandriyanto64@gmail.com</p></div></a>
+    <div class="c-item reveal"><div class="ic"><i class="fa-solid fa-location-dot"></i></div><div><h4>Alamat</h4><p>Jawa Timur, Kab. Jember</p></div></div>
+  </div>
+</section>
+</main>
+
+<footer>&copy; <span id="yr"></span> Shoufin Andriyanto. Teknik Komputer - Politeknik Negeri Jember.</footer>
+<button id="top" aria-label="Ke atas"><i class="fa-solid fa-arrow-up"></i></button>
+<div id="lightbox"><span class="x">&times;</span><img alt="Sertifikat"></div>
+
+<script>
+// Loader
+// Loader: jangan menunggu semua resource (font CDN, ikon, gambar sertifikat) selesai dimuat.
+// Kalau satu saja lambat/gagal, event 'load' tidak pernah jalan dan loader nyangkut.
+const hideLoader=()=>document.getElementById('loader').classList.add('hide');
+setTimeout(hideLoader,1800);
+window.addEventListener('load',()=>setTimeout(hideLoader,600));
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+// Sertifikat: ganti nama file / judul sesuai sertifikatmu (sertifikat1.jpg ... sertifikat6.jpg)
+const certs=[
+  {img:'Sertifikat FFNS.jpg.jpeg',t:'Sertifikat FFNS'},
+  {img:'Sertifikat Garena Youth Championship.jpg.jpeg',t:'Garena Youth Championship'},
+  {img:'Sertifikat GOLDEN TIKET FFNS.jpg.jpeg',t:'Golden Tiket FFNS'},
+  {img:'Sertifikat Lembaga Sertifikasi Profesi.jpg.jpeg',t:'Lembaga Sertifikasi Profesi'},
+  {img:'Sertifikat Praktik Kerja Lapangan.jpg.jpeg',t:'Praktik Kerja Lapangan'},
+  {img:'Sertifikat Turnamen Sponsor Kahf.jpg.jpeg',t:'Turnamen Sponsor Kahf'}
+];
+const cg=document.getElementById('certGrid');
+certs.forEach((c,i)=>{
+  const d=document.createElement('div');
+  d.className='cert reveal zoom';d.style.transitionDelay=(i%3)*0.12+'s';
+  d.innerHTML=`<div class="fallback"><i class="fa-solid fa-award"></i><span>${c.t}</span></div><img src="${c.img}" alt="${c.t}" onerror="this.style.display='none'"><div class="cap"><i class="fa-solid fa-award"></i> ${c.t}</div>`;
+  d.onclick=()=>{const im=d.querySelector('img');if(im.style.display==='none')return;lb.querySelector('img').src=c.img;lb.classList.add('open')};
+  cg.appendChild(d);
+});
+// Dokumentasi: simpan foto sebagai dokumentasi1.jpg ... dokumentasi6.jpg (tambah baris jika perlu)
+const docs=[
+  {img:'Juara 1 FFNS .jpg.jpeg',t:'Juara 1 FFNS'},
+  {img:'Juara 1 GOLDEN TIKET FFNS.jpg.jpeg',t:'Juara 1 Golden Tiket FFNS'}
+];
+const gal=document.getElementById('gallery');
+docs.forEach((dc,i)=>{const src=dc.img;
+  const d=document.createElement('div');
+  d.className='shot reveal zoom';d.style.transitionDelay=(i%4)*0.1+'s';
+  d.innerHTML=`<div class="fallback"><i class="fa-regular fa-image"></i><span>${dc.t}</span></div><img src="${src}" alt="${dc.t}" loading="lazy" onerror="this.style.display='none'"><div class="cap">${dc.t}</div>`;
+  d.onclick=()=>{if(d.querySelector('img').style.display==='none')return;lb.querySelector('img').src=src;lb.classList.add('open')};
+  gal.appendChild(d);
+});
+const lb=document.getElementById('lightbox');
+lb.onclick=()=>lb.classList.remove('open');
+document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('open')});
+
+// Typing
+const words=['Mahasiswa Teknik Komputer','Pecinta Pemrograman','Gamer & Atlet Bulu Tangkis'];
+let wi=0,ci=0,del=false;const tp=document.getElementById('typing');
+(function type(){
+  const w=words[wi];tp.textContent=w.slice(0,ci);
+  if(!del&&ci++===w.length){del=true;return setTimeout(type,1400)}
+  if(del&&--ci<0){del=false;ci=0;wi=(wi+1)%words.length}
+  setTimeout(type,del?40:90);
+})();
+
+// Navbar, progress, active link, back-to-top
+const nav=document.getElementById('navbar'),prog=document.getElementById('progress'),topBtn=document.getElementById('top');
+const links=[...document.querySelectorAll('.nav-links a')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+addEventListener('scroll',()=>{
+  const y=scrollY,h=document.documentElement.scrollHeight-innerHeight;
+  nav.classList.toggle('scrolled',y>40);prog.style.width=(y/h*100)+'%';topBtn.classList.toggle('show',y>500);
+  let cur=0;secs.forEach((s,i)=>{if(s.offsetTop-200<=y)cur=i});
+  links.forEach((a,i)=>a.classList.toggle('active',i===cur));
+});
+topBtn.onclick=()=>scrollTo({top:0,behavior:'smooth'});
+
+// Mobile menu
+const nl=document.getElementById('navLinks');
+document.getElementById('burger').onclick=()=>nl.classList.toggle('open');
+links.forEach(a=>a.addEventListener('click',()=>nl.classList.remove('open')));
+
+// Reveal on scroll
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add('show');
+    e.target.querySelectorAll('.skill-bar span').forEach(s=>s.style.width=s.dataset.w);io.unobserve(e.target)}
+}),{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// Cursor glow
+const glow=document.getElementById('glow');
+addEventListener('mousemove',e=>{glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px'});
+
+// 3D tilt cards
+document.querySelectorAll('.card').forEach(c=>{
+  c.addEventListener('mousemove',e=>{
+    const r=c.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+    c.style.setProperty('--mx',x+'px');c.style.setProperty('--my',y+'px');
+    c.style.transform=`perspective(700px) rotateX(${((y/r.height)-.5)*-12}deg) rotateY(${((x/r.width)-.5)*12}deg) translateY(-6px)`;
+  });
+  c.addEventListener('mouseleave',()=>c.style.transform='');
+});
+
+// Particle network background
+const cv=document.getElementById('bg-canvas'),cx=cv.getContext('2d');let P=[];
+function size(){cv.width=innerWidth;cv.height=innerHeight;P=Array.from({length:Math.min(70,innerWidth/18)},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35}))}
+size();addEventListener('resize',size);
+(function draw(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  P.forEach((p,i)=>{
+    p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>cv.width)p.vx*=-1;if(p.y<0||p.y>cv.height)p.vy*=-1;
+    cx.fillStyle='rgba(255,255,255,.5)';cx.beginPath();cx.arc(p.x,p.y,1.4,0,7);cx.fill();
+    for(let j=i+1;j<P.length;j++){const q=P[j],d=Math.hypot(p.x-q.x,p.y-q.y);
+      if(d<130){cx.strokeStyle=`rgba(255,255,255,${.12*(1-d/130)})`;cx.beginPath();cx.moveTo(p.x,p.y);cx.lineTo(q.x,q.y);cx.stroke()}}
+  });
+  requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>
